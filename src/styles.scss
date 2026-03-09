@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overscroll-behavior-y: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* The following colors are generic, but the theme uses variables.
+     Keeping theme variables for body background and text color. */
+  background-color: var(--bg-abyss);
+  color: var(--text-primary);
+}
+
+* {
+  box-sizing: border-box;
+  /* The original * reset had margin and padding, which are now in html, body.
+     Keeping only box-sizing here as per the new instruction's * block. */
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+:root {
+  // Mystic Backgrounds
+  --bg-abyss: #0b0a10; // Deep black/purple base
+  --bg-mantle: #151322; // Slightly lighter deep purple
+  --bg-surface: #1e1a31; // Elevated surface for cards
+
+  // Enchanted Accents
+  --accent-gold: #d4af37; // Magical amber/gold
+  --accent-gold-glow: rgba(212, 175, 55, 0.4);
+  --accent-arcane: #8a2be2; // Arcane purple
+  --accent-arcane-glow: rgba(138, 43, 226, 0.4);
+  --accent-mystic-green: #00fa9a; // Deep mystic green for success/progress
+
+  // Text Colors
+  --text-primary: #e0dde6; // Soft off-white
+  --text-secondary: #9b98a6; // Muted silver/grey
+  --text-dark: #12101a; // Use over bright accents
+
+  // Structural
+  --radius-pill: 9999px;
+  --radius-card: 20px;
+  --shadow-glow: 0 4px 15px var(--accent-gold-glow);
+  --shadow-arcane: 0 4px 15px var(--accent-arcane-glow);
+
+  // Transitions
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  background-color: var(--bg-abyss);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 80px; /* Space for bottom nav */
+}
+
+/* Scrollbar styling for webkit (hide for mobile, elegant for desktop) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-abyss);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface);
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-arcane);
+}

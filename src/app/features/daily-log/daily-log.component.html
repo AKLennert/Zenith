@@ -1,0 +1,52 @@
+<div class="daily-log-container">
+  
+  <!-- Date Carousel -->
+  <div class="date-carousel">
+    <div 
+      class="date-item" 
+      *ngFor="let d of dates" 
+      [class.active]="formatDate(d) === selectedDateStr"
+      (click)="selectDate(d)">
+      <span class="day-name">{{ getDisplayDay(d) }}</span>
+      <span class="date-num">{{ d.getDate() }}</span>
+    </div>
+  </div>
+
+  <div class="content fade-in" *ngIf="!isLoading">
+    <!-- Primary Toggle -->
+    <div class="partook-toggle-container">
+      <h3>Did you partake {{ getDisplayDay(selectedDate) === 'Today' ? 'today' : 'on ' + getDisplayDate(selectedDate) }}?</h3>
+      
+      <div class="toggle-options">
+        <button 
+          class="option-btn" 
+          [class.selected-arcane]="currentLog.partook === true"
+          (click)="togglePartook(true)">
+          <span class="icon">🌿</span>
+          <span class="label">Ripped</span>
+        </button>
+
+        <button 
+          class="option-btn" 
+          [class.selected-success]="currentLog.partook === false"
+          (click)="togglePartook(false)">
+          <span class="icon">🤩</span>
+          <span class="label">Didn't wrap</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Extendable Journal -->
+    <div class="journal-section" *ngIf="currentLog.partook !== null">
+      <h4>📝 Notes & Mood</h4>
+      <div class="textarea-wrapper">
+        <textarea 
+          [(ngModel)]="currentLog.journal" 
+          (ngModelChange)="onJournalChange()"
+          placeholder="Jot down any thoughts, how you're feeling, or what you did...">
+        </textarea>
+      </div>
+    </div>
+  </div>
+
+</div>

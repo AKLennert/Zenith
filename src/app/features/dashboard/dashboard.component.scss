@@ -1,0 +1,435 @@
+// ====================================================
+// Your Journey Dashboard — Component Styles
+// ====================================================
+
+.journey-container {
+  padding: 20px 16px;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ===================== Header ========================
+.journey-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+
+  .header-greeting {
+    .greeting-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-arcane);
+      opacity: 0.8;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 2px 0 0;
+      background: linear-gradient(135deg, #e0dde6, var(--accent-arcane));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .btn-logout {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+
+    &:hover {
+      background: rgba(138, 43, 226, 0.15);
+      border-color: var(--accent-arcane);
+      color: var(--text-primary);
+    }
+  }
+}
+
+// ===================== Base Card =====================
+.journey-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(138, 43, 226, 0.3),
+      transparent
+    );
+  }
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), var(--shadow-arcane);
+  }
+}
+
+.card-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent-arcane);
+  opacity: 0.75;
+  margin-bottom: 10px;
+  display: block;
+}
+
+// =================== Quest Card ======================
+.quest-card {
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+
+  .card-title-group {
+    .card-eyebrow { margin-bottom: 4px; }
+    .card-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0;
+    }
+  }
+
+  .quest-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent-arcane), #3b06a0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 16px rgba(138, 43, 226, 0.4);
+    animation: badge-pulse 3s ease-in-out infinite;
+
+    &.complete {
+      background: linear-gradient(135deg, var(--accent-gold), #ff8c00);
+      box-shadow: 0 4px 16px var(--accent-gold-glow);
+    }
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+
+    .progress-main {
+      font-size: 14px;
+      color: var(--text-secondary);
+      strong {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+    }
+
+    .progress-percent {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-mystic-green);
+      text-shadow: 0 0 10px rgba(0, 250, 154, 0.4);
+    }
+  }
+
+  .progress-bar-track {
+    height: 10px;
+    background: var(--bg-mantle);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.5);
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        var(--accent-arcane),
+        var(--accent-mystic-green)
+      );
+      border-radius: var(--radius-pill);
+      transition: width 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+
+      .progress-glow {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 24px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7));
+        border-radius: var(--radius-pill);
+        filter: blur(3px);
+      }
+    }
+  }
+
+  .quest-sub-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+
+    .complete-text {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+  }
+}
+
+// =================== Timer Card ======================
+.timer-card {
+  text-align: center;
+
+  .timer-pills-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 10px;
+  }
+
+  .time-separator {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 20px; // offset to center with pill-label space
+    opacity: 0.5;
+  }
+
+  .time-pill-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pill-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .time-pill {
+    width: 72px;
+    height: 90px;
+    border-radius: 36px;
+    background: var(--bg-mantle);
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      inset 0 0 12px rgba(0, 0, 0, 0.3);
+
+    // Dynamic fill — filled from the bottom up using CSS custom property --fill
+    .pill-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: calc(var(--fill, 0) * 100%);
+      background: linear-gradient(
+        0deg,
+        rgba(0, 250, 154, 0.55) 0%,
+        rgba(138, 43, 226, 0.35) 100%
+      );
+      transition: height 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 36px;
+    }
+
+    .pill-value {
+      position: relative;
+      z-index: 1;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 12px rgba(0, 250, 154, 0.6);
+      letter-spacing: -1px;
+    }
+  }
+
+  .timer-tagline {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    opacity: 0.7;
+  }
+}
+
+// ================== Summary Row ======================
+.summary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 16px;
+
+  .summary-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(138, 43, 226, 0.5));
+  }
+
+  .summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .summary-eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .summary-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+
+  .summary-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  &.highlight-card {
+    .summary-value {
+      color: var(--accent-mystic-green);
+      text-shadow: 0 0 12px rgba(0, 250, 154, 0.4);
+    }
+  }
+}
+
+// ================== No Quest State ===================
+.no-quest-card {
+  text-align: center;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .no-quest-icon {
+    font-size: 56px;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.5));
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 280px;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.btn-begin-quest {
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--accent-arcane), #5e14b5);
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+  transition: var(--transition-smooth);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// ================== Loading State ====================
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px 20px;
+  color: var(--text-secondary);
+
+  .arcane-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(138, 43, 226, 0.2);
+    border-top-color: var(--accent-arcane);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+// =================== Animations ======================
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(138, 43, 226, 0.4); }
+  50% { box-shadow: 0 4px 28px rgba(138, 43, 226, 0.7); }
+}

@@ -1,0 +1,142 @@
+<div class="journey-container">
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="arcane-spinner"></div>
+    <p>Reading the stars...</p>
+  </div>
+
+  <!-- Main Content -->
+  <ng-container *ngIf="!isLoading">
+
+    <!-- === Header === -->
+    <div class="journey-header">
+      <div class="header-greeting">
+        <span class="greeting-label">Your Sanctum</span>
+        <h1>Your Journey</h1>
+      </div>
+      <button class="btn-logout" (click)="logout()">↩ Exit</button>
+    </div>
+
+    <!-- === Quest Exists: Show Progress === -->
+    <ng-container *ngIf="questProgress$ | async as progress; else noQuest">
+
+      <!-- Card 1: Your Quest / Program -->
+      <div class="journey-card quest-card">
+        <div class="card-top-row">
+          <div class="card-title-group">
+            <span class="card-eyebrow">YOUR QUEST</span>
+            <h2 class="card-title">{{ progress.quest.name }}</h2>
+          </div>
+          <div class="quest-badge" [class.complete]="progress.isComplete">
+            <span class="badge-icon">🔮</span>
+          </div>
+        </div>
+
+        <div class="progress-meta">
+          <span class="progress-main">
+            <strong>{{ progress.daysElapsed }}</strong> of {{ progress.quest.durationDays }} days
+          </span>
+          <span class="progress-percent">{{ progress.progressPercent }}%</span>
+        </div>
+
+        <div class="progress-bar-track">
+          <div
+            class="progress-bar-fill"
+            [style.width.%]="progress.progressPercent">
+            <div class="progress-glow"></div>
+          </div>
+        </div>
+
+        <div class="quest-sub-label">
+          <span>Started {{ progress.quest.startDate.toDate() | date:'mediumDate' }}</span>
+          <span *ngIf="!progress.isComplete">{{ progress.quest.durationDays - progress.daysElapsed }} days remaining</span>
+          <span *ngIf="progress.isComplete" class="complete-text">✨ Quest Complete!</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Sober-for Live Timer -->
+      <div class="journey-card timer-card">
+        <div class="card-eyebrow">SOBER FOR</div>
+        <div class="timer-pills-row">
+
+          <!-- Hours Pill -->
+          <div class="time-pill-wrapper">
+            <div class="time-pill" [style.--fill]="getFillPercent('hoursElapsed', progress)">
+              <div class="pill-fill"></div>
+              <span class="pill-value">{{ formatPad(progress.hoursElapsed) }}</span>
+            </div>
+            <span class="pill-label">Hours</span>
+          </div>
+
+          <span class="time-separator">:</span>
+
+          <!-- Minutes Pill -->
+          <div class="time-pill-wrapper">
+            <div class="time-pill" [style.--fill]="getFillPercent('minutesElapsed', progress)">
+              <div class="pill-fill"></div>
+              <span class="pill-value">{{ formatPad(progress.minutesElapsed) }}</span>
+            </div>
+            <span class="pill-label">Minutes</span>
+          </div>
+
+          <span class="time-separator">:</span>
+
+          <!-- Seconds Pill -->
+          <div class="time-pill-wrapper">
+            <div class="time-pill" [style.--fill]="getFillPercent('secondsElapsed', progress)">
+              <div class="pill-fill"></div>
+              <span class="pill-value">{{ formatPad(progress.secondsElapsed) }}</span>
+            </div>
+            <span class="pill-label">Seconds</span>
+          </div>
+
+        </div>
+        <p class="timer-tagline">Every second is a victory 🌟</p>
+      </div>
+
+      <!-- Row: Summary Cards -->
+      <div class="summary-row">
+
+        <!-- Total Days Card -->
+        <div class="journey-card summary-card">
+          <span class="summary-icon">📅</span>
+          <div class="summary-content">
+            <span class="summary-eyebrow">TOTAL DAYS</span>
+            <span class="summary-value">{{ progress.daysElapsed }}</span>
+            <span class="summary-sub">of {{ progress.quest.durationDays }}</span>
+          </div>
+        </div>
+
+        <!-- Percentage Card -->
+        <div class="journey-card summary-card highlight-card">
+          <span class="summary-icon">📉</span>
+          <div class="summary-content">
+            <span class="summary-eyebrow">PROGRESS</span>
+            <span class="summary-value">{{ progress.progressPercent }}%</span>
+            <span class="summary-sub">of quest done</span>
+          </div>
+        </div>
+
+      </div>
+
+    </ng-container>
+
+    <!-- === No Quest State === -->
+    <ng-template #noQuest>
+      <div class="journey-card no-quest-card">
+        <div class="no-quest-icon">🌑</div>
+        <h2>No Active Quest</h2>
+        <p>Your T-Break journey hasn't started yet. Begin a Clear30 quest to track your progress.</p>
+        <button
+          class="btn-begin-quest"
+          (click)="beginMockQuest()"
+          [disabled]="isCreatingQuest">
+          <span *ngIf="!isCreatingQuest">⚗️ Begin Clear30 Quest</span>
+          <span *ngIf="isCreatingQuest">Forging your path...</span>
+        </button>
+      </div>
+    </ng-template>
+
+  </ng-container>
+</div>
