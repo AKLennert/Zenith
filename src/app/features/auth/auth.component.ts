@@ -52,7 +52,6 @@ export class AuthComponent {
         await this.userProfileService.createUserProfile({
           uid: cred.user.uid,
           email: cred.user.email,
-          house: 'Unsorted',
           theme: 'dark'
         });
       }
@@ -72,11 +71,10 @@ export class AuthComponent {
       // Check if profile exists, if not create one
       const existingProfile = await this.userProfileService.getUserProfile(cred.user.uid);
       if (!existingProfile) {
-         await this.userProfileService.createUserProfile({
+        await this.userProfileService.createUserProfile({
           uid: cred.user.uid,
           email: cred.user.email,
           displayName: cred.user.displayName,
-          house: 'Unsorted',
           theme: 'dark'
         });
       }

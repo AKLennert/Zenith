@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
         this.profile = await this.userProfileService.getUserProfile(user.uid);
         if (!this.profile) {
           // If no profile exists, initialize a minimum one
-          this.profile = { uid: user.uid, email: user.email, house: 'Unsorted' };
+          this.profile = { uid: user.uid, email: user.email };
         }
       }
       this.isLoading = false;
@@ -39,9 +39,7 @@ export class ProfileComponent implements OnInit {
     this.isSaving = true;
     try {
       await this.userProfileService.updateUserProfile(this.profile.uid, {
-        displayName: this.profile.displayName,
-        house: this.profile.house,
-        favoriteSpell: this.profile.favoriteSpell
+        displayName: this.profile.displayName
       });
     } catch (error) {
       console.error("Error saving profile:", error);
