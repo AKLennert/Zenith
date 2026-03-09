@@ -137,35 +137,125 @@
       cursor: not-allowed;
     }
   }
+  .mt-3 { margin-top: 12px; }
+  .mt-4 { margin-top: 24px; }
+
+  // Toggle Group
+  .toggle-group {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      margin: 0;
+    }
+  }
+
+  // Cyber Switch
+  .cyber-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--bg-mantle);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: .4s;
+      border-radius: 34px;
+
+      &:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 3px;
+        bottom: 3px;
+        background-color: var(--text-secondary);
+        transition: .4s;
+        border-radius: 50%;
+      }
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-arcane);
+      border-color: var(--accent-arcane);
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px var(--accent-arcane);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+      background-color: white;
+      box-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+  }
 }
 
-// ==== Actions ====
-.actions-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
+// ==== Actions Card ====
+.actions-card {
+  .actions-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: -4px 0 12px;
+  }
 
-  .btn-logout {
+  .btn-action, .btn-logout {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    background: transparent;
-    border: 1px solid rgba(255, 69, 58, 0.3);
-    color: #ff453a;
-    padding: 12px 24px;
+    width: 100%;
+    padding: 14px;
     border-radius: var(--radius-pill);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-smooth);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+
+    &:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .icon {
+      font-size: 18px;
+    }
+  }
+
+  .btn-danger {
+    color: #ff453a;
+    border-color: rgba(255, 69, 58, 0.3);
+    background: transparent;
 
     &:hover {
       background: rgba(255, 69, 58, 0.1);
       border-color: #ff453a;
     }
+  }
 
-    .icon {
-      font-size: 18px;
+  .btn-logout {
+    color: var(--text-secondary);
+    border-color: transparent;
+    background: transparent;
+    margin-top: 8px;
+
+    &:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.05);
     }
   }
 }

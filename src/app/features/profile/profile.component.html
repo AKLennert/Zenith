@@ -28,17 +28,47 @@
           class="cyber-input" />
       </div>
 
-      <button class="btn-save" (click)="saveProfile()" [disabled]="isSaving">
-        <span *ngIf="!isSaving">Save Changes</span>
-        <span *ngIf="isSaving">Saving...</span>
+      <h3 class="card-title mt-4">Journey Preferences</h3>
+
+      <div class="form-group toggle-group">
+        <label>Daily Check-in Reminder</label>
+        <label class="cyber-switch">
+          <input type="checkbox" [(ngModel)]="profile.dailyReminder">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Default Quest Duration</label>
+        <select [(ngModel)]="profile.defaultQuestDuration" class="cyber-input select">
+          <option [ngValue]="7">7 Days (Apprentice)</option>
+          <option [ngValue]="14">14 Days (Adept)</option>
+          <option [ngValue]="21">21 Days (Master)</option>
+          <option [ngValue]="30">30 Days (Grand Magus)</option>
+        </select>
+      </div>
+
+      <button class="btn-save mt-3" (click)="saveProfile()" [disabled]="isSaving">
+        <span *ngIf="!isSaving">Save Setting Runes</span>
+        <span *ngIf="isSaving">Scribing...</span>
       </button>
     </div>
 
     <!-- Actions -->
-    <div class="actions-section">
-      <button class="btn-logout" (click)="logout()">
-        <span class="icon">🚪</span>
-        Leave Sanctum
+    <div class="profile-card actions-card">
+      <h3 class="card-title">Arcane Archives</h3>
+      <p class="actions-desc">Manage your data scrolls or leave the sanctum entirely.</p>
+      
+      <button class="btn-action" (click)="exportData()">
+        <span class="icon">📜</span> Export My Data
+      </button>
+      
+      <button class="btn-action btn-danger" (click)="deleteAccount()">
+        <span class="icon">🔥</span> Banish Account
+      </button>
+
+      <button class="btn-logout mt-2" (click)="logout()">
+        <span class="icon">🚪</span> Leave Sanctum
       </button>
     </div>
   </ng-container>

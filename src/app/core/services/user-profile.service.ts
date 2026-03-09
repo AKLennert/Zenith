@@ -5,6 +5,8 @@ export interface UserProfile {
   uid: string;
   email?: string | null;
   displayName?: string | null;
+  dailyReminder?: boolean;
+  defaultQuestDuration?: number;
   theme?: string;
 }
 
