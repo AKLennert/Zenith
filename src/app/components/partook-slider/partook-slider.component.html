@@ -1,0 +1,16 @@
+<div class="slider-track" [class.left-active]="position === 'left'" [class.right-active]="position === 'right'">
+  <!-- Sliding Pill (indicator) -->
+  <div class="slider-pill" [class.pos-left]="position === 'left'" [class.pos-center]="position === 'center'" [class.pos-right]="position === 'right'"></div>
+
+  <!-- Left Label: Ripped -->
+  <button class="slider-label label-left" (click)="selectLeft()" [class.label-active]="position === 'left'">
+    <span class="label-icon">🌿</span>
+    <span class="label-text">Ripped</span>
+  </button>
+
+  <!-- Right Label: Didn't rip -->
+  <button class="slider-label label-right" (click)="selectRight()" [class.label-active]="position === 'right'">
+    <span class="label-text">Didn't rip</span>
+    <span class="label-icon">🤩</span>
+  </button>
+</div>

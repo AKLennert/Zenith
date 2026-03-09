@@ -1,0 +1,76 @@
+<div class="home-container">
+
+  <!-- Header -->
+  <div class="home-header">
+    <div>
+      <span class="greeting-label">Your Sanctum</span>
+      <h1>Today's Log</h1>
+    </div>
+    <div class="header-date">
+      <span>{{ selectedDate | date:'EEE, MMM d' }}</span>
+      <span class="saving-indicator" [class.visible]="isSaving">✦ saving...</span>
+    </div>
+  </div>
+
+  <!-- Monthly Calendar -->
+  <app-month-calendar
+    [logs]="monthLogs"
+    [selectedDateStr]="selectedDateStr"
+    (daySelected)="onDaySelectedFromCalendar($event)">
+  </app-month-calendar>
+
+  <!-- Week Date Carousel -->
+  <div class="date-carousel">
+    <div
+      class="date-item"
+      *ngFor="let d of dates"
+      [class.active]="formatDate(d) === selectedDateStr"
+      (click)="selectDate(d)">
+      <span class="day-name">{{ getDisplayDay(d) }}</span>
+      <span class="date-num">{{ d.getDate() }}</span>
+      <span class="day-dot"
+        [class.dot-clean]="monthLogs[formatDate(d)] === false"
+        [class.dot-ripped]="monthLogs[formatDate(d)] === true">
+      </span>
+    </div>
+  </div>
+
+  <!-- Check-in Section -->
+  <div class="checkin-section" *ngIf="!isLoading">
+    <h3 class="checkin-label">
+      Check in for
+      <strong>{{ getDisplayDay(selectedDate) === 'Today' ? 'Today' : getDisplayDate(selectedDate) }}</strong>
+    </h3>
+
+    <!-- Partook Slider -->
+    <app-partook-slider
+      [value]="currentLog.partook ?? null"
+      (valueChange)="onPartookChange($event)">
+    </app-partook-slider>
+
+    <!-- Journal -->
+    <div class="journal-section" *ngIf="currentLog.partook !== null && currentLog.partook !== undefined">
+      <h4>📝 Notes & Mood</h4>
+      <div class="textarea-wrapper">
+        <textarea
+          [(ngModel)]="currentLog.journal"
+          (ngModelChange)="onJournalChange()"
+          placeholder="Jot down thoughts, how you're feeling, or what you did...">
+        </textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="arcane-spinner"></div>
+    <p>Reading the stars...</p>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div class="dashboard-section">
+    <h2 class="section-title">⚗️ Your Quest</h2>
+    <app-dashboard></app-dashboard>
+  </div>
+
+</div>

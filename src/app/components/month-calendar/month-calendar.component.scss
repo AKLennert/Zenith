@@ -1,0 +1,109 @@
+.month-calendar {
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+  border: 1px solid var(--bg-mantle);
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .month-label {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+
+    &.dot-clean { background-color: var(--accent-mystic-green); }
+    &.dot-ripped { background-color: var(--accent-arcane); }
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.weekday-label {
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 6px;
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  position: relative;
+
+  &.empty {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &.future {
+    color: var(--text-secondary);
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &.today {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 1px;
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  &.status-clean {
+    background-color: rgba(0, 250, 154, 0.18);
+    color: var(--accent-mystic-green);
+    border: 1px solid rgba(0, 250, 154, 0.3);
+
+    &:hover { background-color: rgba(0, 250, 154, 0.28); }
+  }
+
+  &.status-ripped {
+    background-color: rgba(138, 43, 226, 0.18);
+    color: #c084fc;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+
+    &:hover { background-color: rgba(138, 43, 226, 0.28); }
+  }
+
+  &.status-none {
+    background-color: var(--bg-mantle);
+
+    &:hover { background-color: var(--bg-surface); }
+  }
+}

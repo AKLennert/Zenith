@@ -56,7 +56,7 @@ export class AuthComponent {
           theme: 'dark'
         });
       }
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
     } catch (error: any) {
       this.errorMessage = error.message;
     } finally {
@@ -80,7 +80,7 @@ export class AuthComponent {
           theme: 'dark'
         });
       }
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
     } catch (error: any) {
       this.errorMessage = error.message;
     } finally {

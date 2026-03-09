@@ -1,23 +1,30 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component';
-import { WeekDateSelectorComponent } from './components/week-date-selector/week-date-selector.component';
-import { PillToggleComponent } from './components/pill-toggle/pill-toggle.component';
-import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
+    CommonModule,
     BottomNavComponent,
-    WeekDateSelectorComponent,
-    PillToggleComponent,
-    DashboardCardComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'zenith';
+  private router = inject(Router);
+  showNav = false;
+
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map((event: any) => event.urlAfterRedirects)
+    ).subscribe((url: string) => {
+      this.showNav = !url.startsWith('/auth');
+    });
+  }
 }

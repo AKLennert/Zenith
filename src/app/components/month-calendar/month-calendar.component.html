@@ -1,0 +1,28 @@
+<div class="month-calendar">
+  <div class="calendar-header">
+    <h3 class="month-label">{{ monthLabel }}</h3>
+    <div class="legend">
+      <span class="legend-dot dot-clean"></span><span class="legend-text">Clean</span>
+      <span class="legend-dot dot-ripped"></span><span class="legend-text">Ripped</span>
+    </div>
+  </div>
+
+  <!-- Weekday headers -->
+  <div class="calendar-grid">
+    <div class="weekday-label" *ngFor="let wd of weekDays">{{ wd }}</div>
+
+    <!-- Day cells -->
+    <div
+      *ngFor="let dayObj of calendarDays"
+      class="day-cell"
+      [class.empty]="!dayObj"
+      [class.today]="dayObj?.isToday"
+      [class.future]="dayObj?.status === 'future'"
+      [class.status-clean]="dayObj?.status === 'clean'"
+      [class.status-ripped]="dayObj?.status === 'ripped'"
+      [class.status-none]="dayObj?.status === 'none'"
+      (click)="selectDay(dayObj)">
+      <span *ngIf="dayObj">{{ dayObj.day }}</span>
+    </div>
+  </div>
+</div>
