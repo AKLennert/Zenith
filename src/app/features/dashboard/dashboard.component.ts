@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { UserProfileService, UserProfile } from '../../core/services/user-profile.service';
 import { JourneyService, QuestProgress } from '../../core/services/journey.service';
-import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -17,7 +16,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   private userProfileService = inject(UserProfileService);
   private journeyService = inject(JourneyService);
-  private router = inject(Router);
 
   userProfile: UserProfile | null = null;
   isLoading = true;
@@ -65,10 +63,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   formatPad(value: number): string {
     return value.toString().padStart(2, '0');
-  }
-
-  async logout() {
-    await this.authService.logout();
-    this.router.navigate(['/auth']);
   }
 }

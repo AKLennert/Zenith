@@ -1,0 +1,195 @@
+// ====================================================
+// Profile Page Styles
+// ====================================================
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 30px 20px 110px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+// ==== Header ====
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 8px;
+
+  .avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bg-surface), #261642);
+    border: 2px solid var(--accent-arcane);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px var(--accent-arcane-glow);
+    margin-bottom: 16px;
+
+    .avatar-icon {
+      font-size: 40px;
+    }
+  }
+
+  h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+  }
+
+  .email-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+// ==== Editable Card ====
+.profile-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 12px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+  }
+
+  .cyber-input {
+    background: var(--bg-mantle);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-pill);
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    transition: var(--transition-smooth);
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-arcane);
+      box-shadow: 0 0 0 1px var(--accent-arcane-glow);
+    }
+
+    &::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.5;
+    }
+
+    // specific for select
+    &.select {
+      appearance: none;
+      cursor: pointer;
+    }
+  }
+
+  .btn-save {
+    margin-top: 12px;
+    background: linear-gradient(135deg, var(--accent-arcane), #5e14b5);
+    border: none;
+    color: white;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+    transition: var(--transition-smooth);
+    text-align: center;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ==== Actions ====
+.actions-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+
+  .btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid rgba(255, 69, 58, 0.3);
+    color: #ff453a;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+
+    &:hover {
+      background: rgba(255, 69, 58, 0.1);
+      border-color: #ff453a;
+    }
+
+    .icon {
+      font-size: 18px;
+    }
+  }
+}
+
+// ==== Loading ====
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px 20px;
+  color: var(--text-secondary);
+
+  .arcane-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(138, 43, 226, 0.2);
+    border-top-color: var(--accent-arcane);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

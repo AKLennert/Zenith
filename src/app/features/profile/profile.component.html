@@ -1,0 +1,66 @@
+<div class="profile-container">
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="arcane-spinner"></div>
+    <p>Summoning your profile...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && profile">
+    <div class="profile-header">
+      <div class="avatar-circle">
+        <span class="avatar-icon">🧙‍♂️</span>
+      </div>
+      <h2>{{ profile.displayName || 'Apprentice Wizard' }}</h2>
+      <p class="email-label">{{ profile.email }}</p>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div class="profile-card">
+      <h3 class="card-title">Wizard Identity</h3>
+      
+      <div class="form-group">
+        <label>Display Name</label>
+        <input 
+          type="text" 
+          [(ngModel)]="profile.displayName" 
+          placeholder="e.g. Gandalf"
+          class="cyber-input" />
+      </div>
+
+      <div class="form-group">
+        <label>Wizard House</label>
+        <select [(ngModel)]="profile.house" class="cyber-input">
+          <option value="Unsorted">Unsorted</option>
+          <option value="Gryffindor">Gryffindor</option>
+          <option value="Slytherin">Slytherin</option>
+          <option value="Ravenclaw">Ravenclaw</option>
+          <option value="Hufflepuff">Hufflepuff</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Favorite Spell / Strain</label>
+        <input 
+          type="text" 
+          [(ngModel)]="profile.favoriteSpell" 
+          placeholder="e.g. Lumos Maxima"
+          class="cyber-input" />
+      </div>
+
+      <button class="btn-save" (click)="saveProfile()" [disabled]="isSaving">
+        <span *ngIf="!isSaving">Save Changes</span>
+        <span *ngIf="isSaving">Saving...</span>
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-section">
+      <button class="btn-logout" (click)="logout()">
+        <span class="icon">🚪</span>
+        Leave Sanctum
+      </button>
+    </div>
+  </ng-container>
+
+</div>
