@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DailyLogService, DailyLog } from '../../core/services/daily-log.service';
 import { AuthService } from '../../core/services/auth.service';
-import { DashboardComponent } from '../dashboard/dashboard.component';
 import { MonthCalendarComponent } from '../../components/month-calendar/month-calendar.component';
 import { PartookSliderComponent } from '../../components/partook-slider/partook-slider.component';
 import { Subject, takeUntil, debounceTime } from 'rxjs';
@@ -16,7 +15,6 @@ import { collection, query, getDocs, Firestore, where } from '@angular/fire/fire
   imports: [
     CommonModule,
     FormsModule,
-    DashboardComponent,
     MonthCalendarComponent,
     PartookSliderComponent,
   ],
