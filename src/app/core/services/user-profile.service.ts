@@ -8,6 +8,12 @@ export interface UserProfile {
   dailyReminder?: boolean;
   defaultQuestDuration?: number;
   theme?: string;
+  weight?: number; // in kg
+  height?: number; // in cm
+  age?: number;
+  gender?: 'male' | 'female' | 'other';
+  activityLevel?: 'sedentary' | 'lightly_active' | 'moderately_active' | 'very_active' | 'extra_active';
+  maintenanceCalories?: number;
 }
 
 @Injectable({

@@ -1,0 +1,51 @@
+<div class="home-container">
+
+  <!-- Header -->
+  <div class="home-header">
+    <div>
+      <span class="greeting-label">Log Entry</span>
+      <h1 class="capitalize">Add {{ mealType }}</h1>
+    </div>
+    <button class="back-link" (click)="goBack()">← Back</button>
+  </div>
+
+  <div class="entry-card">
+    <div class="form-group">
+      <label>Item Name</label>
+      <input type="text" [(ngModel)]="newItem.name" placeholder="e.g. Scrambled Eggs">
+    </div>
+
+    <div class="form-group row-group">
+      <div class="half-group">
+        <label>Calories (kcal)</label>
+        <input type="number" [(ngModel)]="newItem.calories" placeholder="300">
+      </div>
+    </div>
+
+    <div class="macros-setup">
+      <h4>Macros (Optional)</h4>
+      <div class="macros-row">
+        <div class="form-group small-group">
+          <label>Protein (g)</label>
+          <input type="number" [(ngModel)]="newItem.protein">
+        </div>
+        <div class="form-group small-group">
+          <label>Carbs (g)</label>
+          <input type="number" [(ngModel)]="newItem.carbs">
+        </div>
+        <div class="form-group small-group">
+          <label>Fats (g)</label>
+          <input type="number" [(ngModel)]="newItem.fats">
+        </div>
+      </div>
+    </div>
+
+    <button 
+      class="save-btn" 
+      [disabled]="isSaving || !newItem.name"
+      (click)="saveItem()">
+      {{ isSaving ? 'Scribing...' : 'Save Entry' }}
+    </button>
+  </div>
+
+</div>

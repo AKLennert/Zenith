@@ -1,33 +1,49 @@
 .bottom-nav {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--bg-mantle);
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
-  width: 90%;
-  max-width: 400px;
-  background: var(--bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-pill);
-  padding: 10px 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 0 max(env(safe-area-inset-left), 1rem) env(safe-area-inset-bottom) max(env(safe-area-inset-right), 1rem);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
   z-index: 1000;
-  backdrop-filter: blur(10px);
+
+  // enable scrolling for smaller screens with 6+ items
+  overflow-x: auto;
+  scrollbar-width: none; // Firefox
+  &::-webkit-scrollbar { display: none; } // Webkit
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 60px; // ensure items don't squish too much
+    height: 100%;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+  }
 }
 
 .nav-item {
   background: none;
   border: none;
-  color: var(--text-secondary);
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  /* color: var(--text-secondary); MOVED TO NESTED .nav-item */
+  /* text-decoration: none; MOVED TO NESTED .nav-item */
+  /* display: flex; MOVED TO NESTED .nav-item */
+  /* flex-direction: column; MOVED TO NESTED .nav-item */
+  /* align-items: center; MOVED TO NESTED .nav-item */
+  /* gap: 4px; MOVED TO NESTED .nav-item */
   cursor: pointer;
-  transition: var(--transition-smooth);
+  /* transition: var(--transition-smooth); MOVED TO NESTED .nav-item */
   padding: 8px 16px;
   border-radius: var(--radius-pill);
 

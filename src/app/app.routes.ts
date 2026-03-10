@@ -32,6 +32,21 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'food',
+    loadComponent: () => import('./features/food/food-dashboard/food-dashboard.component').then(m => m.FoodDashboardComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'food/add/:mealType',
+    loadComponent: () => import('./features/food/food-entry/food-entry.component').then(m => m.FoodEntryComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'sleep',
+    loadComponent: () => import('./features/sleep/sleep-placeholder/sleep-placeholder.component').then(m => m.SleepPlaceholderComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
