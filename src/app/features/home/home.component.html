@@ -29,8 +29,8 @@
       <span class="day-name">{{ getDisplayDay(d) }}</span>
       <span class="date-num">{{ d.getDate() }}</span>
       <span class="day-dot"
-        [class.dot-clean]="monthLogs[formatDate(d)] === false"
-        [class.dot-ripped]="monthLogs[formatDate(d)] === true">
+        [class.dot-clean]="monthLogs[formatDate(d)]?.partook === false"
+        [class.dot-ripped]="monthLogs[formatDate(d)]?.partook === true">
       </span>
     </div>
   </div>
@@ -48,17 +48,6 @@
       (valueChange)="onPartookChange($event)">
     </app-partook-slider>
 
-    <!-- Journal -->
-    <div class="journal-section" *ngIf="currentLog.partook !== null && currentLog.partook !== undefined">
-      <h4>📝 Notes & Mood</h4>
-      <div class="textarea-wrapper">
-        <textarea
-          [(ngModel)]="currentLog.journal"
-          (ngModelChange)="onJournalChange()"
-          placeholder="Jot down thoughts, how you're feeling, or what you did...">
-        </textarea>
-      </div>
-    </div>
   </div>
 
   <!-- Loading -->

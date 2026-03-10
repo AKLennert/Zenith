@@ -18,9 +18,14 @@
       [class.empty]="!dayObj"
       [class.today]="dayObj?.isToday"
       [class.future]="dayObj?.status === 'future'"
-      [class.status-clean]="dayObj?.status === 'clean'"
-      [class.status-ripped]="dayObj?.status === 'ripped'"
+      [class.status-clean]="dayObj?.status === 'clean' && !dayObj?.mood"
+      [class.status-ripped]="dayObj?.status === 'ripped' && !dayObj?.mood"
       [class.status-none]="dayObj?.status === 'none'"
+      [class.mood-great]="dayObj?.mood === 'great'"
+      [class.mood-good]="dayObj?.mood === 'good'"
+      [class.mood-neutral]="dayObj?.mood === 'neutral'"
+      [class.mood-bad]="dayObj?.mood === 'bad'"
+      [class.mood-terrible]="dayObj?.mood === 'terrible'"
       (click)="selectDay(dayObj)">
       <span *ngIf="dayObj">{{ dayObj.day }}</span>
     </div>

@@ -1,27 +1,21 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MonthCalendarComponent } from '../../components/month-calendar/month-calendar.component';
 import { DailyLogService, DailyLog } from '../../core/services/daily-log.service';
 import { AuthService } from '../../core/services/auth.service';
-import { MonthCalendarComponent } from '../../components/month-calendar/month-calendar.component';
-import { PartookSliderComponent } from '../../components/partook-slider/partook-slider.component';
 import { Subject, takeUntil, debounceTime } from 'rxjs';
 import { User } from 'firebase/auth';
 import { collection, query, getDocs, Firestore, where } from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-journal',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MonthCalendarComponent,
-    PartookSliderComponent,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  imports: [CommonModule, FormsModule, MonthCalendarComponent],
+  templateUrl: './journal.component.html',
+  styleUrl: './journal.component.scss'
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class JournalComponent implements OnInit, OnDestroy {
   private dailyLogService = inject(DailyLogService);
   private authService = inject(AuthService);
   private firestore = inject(Firestore);
@@ -38,6 +32,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   monthLogs: { [dateStr: string]: { partook: boolean | null, mood?: string } } = {};
   isLoading = false;
   isSaving = false;
+
+  moodOptions = [
+    { value: 'great', icon: '🌟', label: 'Great' },
+    { value: 'good', icon: '✨', label: 'Good' },
+    { value: 'neutral', icon: '☁️', label: 'Neutral' },
+    { value: 'bad', icon: '🌧️', label: 'Bad' },
+    { value: 'terrible', icon: '🌩️', label: 'Terrible' }
+  ];
 
   ngOnInit() {
     this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
@@ -94,7 +96,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     const parts = dateStr.split('-');
     const date = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     this.selectDate(date);
-    // Scroll week carousel to include this date if possible
   }
 
   loadLogForSelectedDate() {
@@ -132,15 +133,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  onPartookChange(value: boolean | null) {
-    this.currentLog.partook = value;
+  setMood(moodValue: string) {
+    this.currentLog.mood = moodValue;
     // Update monthLogs immediately for responsive calendar
-    this.monthLogs = { ...this.monthLogs, [this.selectedDateStr]: { partook: value, mood: this.currentLog.mood } };
+    this.monthLogs = { ...this.monthLogs, [this.selectedDateStr]: { 
+      partook: this.currentLog.partook ?? null, 
+      mood: moodValue 
+    }};
     this.triggerSave();
   }
 
   onJournalChange() {
-    this.monthLogs = { ...this.monthLogs, [this.selectedDateStr]: { partook: this.currentLog.partook ?? null, mood: this.currentLog.mood } };
     this.triggerSave();
   }
 
@@ -154,7 +157,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.isSaving = true;
       await this.dailyLogService.saveLog(this.currentUser.uid, this.selectedDateStr, {
         date: this.selectedDateStr,
-        partook: this.currentLog.partook,
+        partook: this.currentLog.partook ?? null,
         mood: this.currentLog.mood,
         journal: this.currentLog.journal
       });

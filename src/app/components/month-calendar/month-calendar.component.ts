@@ -6,6 +6,7 @@ interface CalendarDay {
   day: number;
   isToday: boolean;
   status: 'clean' | 'ripped' | 'none' | 'future';
+  mood?: string;
 }
 
 @Component({
@@ -16,7 +17,7 @@ interface CalendarDay {
   styleUrl: './month-calendar.component.scss'
 })
 export class MonthCalendarComponent implements OnChanges {
-  @Input() logs: { [dateStr: string]: boolean | null } = {};
+  @Input() logs: { [dateStr: string]: { partook: boolean | null, mood?: string } } = {};
   @Input() selectedDateStr: string = '';
   @Output() daySelected = new EventEmitter<string>();
 
@@ -53,17 +54,24 @@ export class MonthCalendarComponent implements OnChanges {
       const logValue = this.logs[dateStr];
 
       let status: CalendarDay['status'];
+      let mood: string | undefined;
+
       if (isFuture) {
         status = 'future';
-      } else if (logValue === false) {
-        status = 'clean';
-      } else if (logValue === true) {
-        status = 'ripped';
+      } else if (logValue) {
+        if (logValue.partook === false) {
+          status = 'clean';
+        } else if (logValue.partook === true) {
+          status = 'ripped';
+        } else {
+          status = 'none';
+        }
+        mood = logValue.mood;
       } else {
         status = 'none';
       }
 
-      days.push({ dateStr, day: d, isToday, status });
+      days.push({ dateStr, day: d, isToday, status, mood });
     }
 
     this.calendarDays = days;
