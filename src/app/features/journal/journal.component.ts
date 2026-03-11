@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MonthCalendarComponent } from '../../components/month-calendar/month-calendar.component';
 import { DailyLogService, DailyLog } from '../../core/services/daily-log.service';
 import { AuthService } from '../../core/services/auth.service';
-import { Subject, takeUntil, debounceTime } from 'rxjs';
+import { Subject, takeUntil, debounceTime, Subscription } from 'rxjs';
 import { User } from 'firebase/auth';
 import { collection, query, getDocs, Firestore, where } from '@angular/fire/firestore';
 
@@ -21,7 +21,9 @@ export class JournalComponent implements OnInit, OnDestroy {
   private firestore = inject(Firestore);
 
   private destroy$ = new Subject<void>();
-  private saveSubject$ = new Subject<void>();
+  private saveSubject$ = new Subject<{ date: string, log: Partial<DailyLog> }>();
+  private logSub: Subscription | null = null;
+  private pendingSave: { date: string, log: Partial<DailyLog> } | null = null;
 
   currentUser: User | null = null;
   dates: Date[] = [];
@@ -55,7 +57,7 @@ export class JournalComponent implements OnInit, OnDestroy {
     this.saveSubject$.pipe(
       takeUntil(this.destroy$),
       debounceTime(1000)
-    ).subscribe(() => this.saveCurrentLog());
+    ).subscribe((data) => this.saveCurrentLog(data.date, data.log));
   }
 
   generateDateCarousel() {
@@ -86,6 +88,18 @@ export class JournalComponent implements OnInit, OnDestroy {
   }
 
   selectDate(date: Date) {
+    if (this.pendingSave) {
+      if (this.currentUser) {
+        this.dailyLogService.saveLog(this.currentUser.uid, this.pendingSave.date, {
+          date: this.pendingSave.date,
+          partook: this.pendingSave.log.partook,
+          mood: this.pendingSave.log.mood,
+          journal: this.pendingSave.log.journal
+        });
+      }
+      this.pendingSave = null;
+    }
+    
     this.selectedDate = date;
     this.selectedDateStr = this.formatDate(date);
     this.currentLog = { partook: null, journal: '', mood: '' };
@@ -101,7 +115,9 @@ export class JournalComponent implements OnInit, OnDestroy {
   loadLogForSelectedDate() {
     if (!this.currentUser) return;
     this.isLoading = true;
-    this.dailyLogService.getLogByDate(this.currentUser.uid, this.selectedDateStr)
+    
+    this.logSub?.unsubscribe();
+    this.logSub = this.dailyLogService.getLogByDate(this.currentUser.uid, this.selectedDateStr)
       .pipe(takeUntil(this.destroy$))
       .subscribe(log => {
         this.currentLog = log ? { ...log } : { partook: null, journal: '', mood: '' };
@@ -148,27 +164,42 @@ export class JournalComponent implements OnInit, OnDestroy {
   }
 
   triggerSave() {
-    this.saveSubject$.next();
+    this.pendingSave = { date: this.selectedDateStr, log: { ...this.currentLog } };
+    this.saveSubject$.next(this.pendingSave);
   }
 
-  async saveCurrentLog() {
+  async saveCurrentLog(dateStr: string, log: Partial<DailyLog>) {
     if (!this.currentUser) return;
     try {
       this.isSaving = true;
-      await this.dailyLogService.saveLog(this.currentUser.uid, this.selectedDateStr, {
-        date: this.selectedDateStr,
-        partook: this.currentLog.partook ?? null,
-        mood: this.currentLog.mood,
-        journal: this.currentLog.journal
+      await this.dailyLogService.saveLog(this.currentUser.uid, dateStr, {
+        date: dateStr,
+        partook: log.partook ?? null,
+        mood: log.mood,
+        journal: log.journal
       });
     } catch (e) {
       console.error('Error saving log', e);
     } finally {
       this.isSaving = false;
+      if (this.pendingSave?.date === dateStr) {
+        this.pendingSave = null;
+      }
     }
   }
 
   ngOnDestroy() {
+    if (this.pendingSave) {
+      if (this.currentUser) {
+        this.dailyLogService.saveLog(this.currentUser.uid, this.pendingSave.date, {
+          date: this.pendingSave.date,
+          partook: this.pendingSave.log.partook,
+          mood: this.pendingSave.log.mood,
+          journal: this.pendingSave.log.journal
+        });
+      }
+    }
+    this.logSub?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
   }

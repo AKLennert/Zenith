@@ -36,7 +36,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   questProgress$: Observable<QuestProgress | null> | null = null;
   private authSub: Subscription | null = null;
   private destroy$ = new Subject<void>();
-  private saveSubject$ = new Subject<void>();
+  private saveSubject$ = new Subject<{ date: string, log: Partial<DailyLog> }>();
+  private logSub: Subscription | null = null;
+  private pendingSave: { date: string, log: Partial<DailyLog> } | null = null;
 
   // Check-In vars
   dates: Date[] = [];
@@ -68,11 +70,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.saveSubject$.pipe(
       takeUntil(this.destroy$),
-      debounceTime(1000)
-    ).subscribe(() => this.saveCurrentLog());
+      debounceTime(500)
+    ).subscribe((data) => this.saveCurrentLog(data.date, data.log));
   }
 
   ngOnDestroy() {
+    if (this.pendingSave) {
+      const user = this.authService.currentUser;
+      if (user) {
+        this.dailyLogService.saveLog(user.uid, this.pendingSave.date, {
+          date: this.pendingSave.date,
+          partook: this.pendingSave.log.partook,
+          mood: this.pendingSave.log.mood,
+          journal: this.pendingSave.log.journal
+        });
+      }
+    }
+    this.logSub?.unsubscribe();
     this.authSub?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
@@ -130,6 +144,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   selectDate(date: Date) {
+    if (this.pendingSave) {
+      const user = this.authService.currentUser;
+      if (user) {
+        this.dailyLogService.saveLog(user.uid, this.pendingSave.date, {
+          date: this.pendingSave.date,
+          partook: this.pendingSave.log.partook,
+          mood: this.pendingSave.log.mood,
+          journal: this.pendingSave.log.journal
+        });
+      }
+      this.pendingSave = null;
+    }
+    
     this.selectedDate = date;
     this.selectedDateStr = this.formatDate(date);
     this.currentLog = { partook: null, journal: '', mood: '' };
@@ -145,7 +172,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadLogForSelectedDate() {
     const user = this.authService.currentUser;
     if (!user) return;
-    this.dailyLogService.getLogByDate(user.uid, this.selectedDateStr)
+    
+    this.logSub?.unsubscribe();
+    this.logSub = this.dailyLogService.getLogByDate(user.uid, this.selectedDateStr)
       .pipe(takeUntil(this.destroy$))
       .subscribe(log => {
         this.currentLog = log ? { ...log } : { partook: null, journal: '', mood: '' };
@@ -184,24 +213,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   triggerSave() {
-    this.saveSubject$.next();
+    this.pendingSave = { date: this.selectedDateStr, log: { ...this.currentLog } };
+    this.saveSubject$.next(this.pendingSave);
   }
 
-  async saveCurrentLog() {
+  async saveCurrentLog(dateStr: string, log: Partial<DailyLog>) {
     const user = this.authService.currentUser;
     if (!user) return;
     try {
       this.isSaving = true;
-      await this.dailyLogService.saveLog(user.uid, this.selectedDateStr, {
-        date: this.selectedDateStr,
-        partook: this.currentLog.partook,
-        mood: this.currentLog.mood,
-        journal: this.currentLog.journal
+      await this.dailyLogService.saveLog(user.uid, dateStr, {
+        date: dateStr,
+        partook: log.partook,
+        mood: log.mood,
+        journal: log.journal
       });
     } catch (e) {
       console.error('Error saving log', e);
     } finally {
       this.isSaving = false;
+      if (this.pendingSave?.date === dateStr) {
+        this.pendingSave = null;
+      }
     }
   }
 }

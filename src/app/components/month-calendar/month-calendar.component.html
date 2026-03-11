@@ -29,7 +29,7 @@
       [class.future]="dayObj?.status === 'future'"
       [class.status-clean]="(mode === 'journey' || mode === 'both') && dayObj?.status === 'clean' && (!dayObj?.mood || mode === 'journey')"
       [class.status-ripped]="(mode === 'journey' || mode === 'both') && dayObj?.status === 'ripped' && (!dayObj?.mood || mode === 'journey')"
-      [class.status-none]="dayObj?.status === 'none'"
+      [class.status-none]="dayObj?.status === 'none' || (mode === 'journal' && !dayObj?.mood)"
       [class.mood-great]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'great'"
       [class.mood-good]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'good'"
       [class.mood-neutral]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'neutral'"

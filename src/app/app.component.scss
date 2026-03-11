@@ -1,0 +1,6 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: max(env(safe-area-inset-top), 20px);
+}

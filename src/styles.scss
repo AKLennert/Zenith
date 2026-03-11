@@ -6,6 +6,10 @@ html, body {
   height: 100%;
   width: 100%;
   overscroll-behavior-y: none;
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  -webkit-touch-callout: none; /* Disable iOS long press popup */
+  touch-action: pan-y; /* Only allow vertical scrolling, disable pinch zoom */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* The following colors are generic, but the theme uses variables.
      Keeping theme variables for body background and text color. */
@@ -15,6 +19,7 @@ html, body {
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
   /* The original * reset had margin and padding, which are now in html, body.
      Keeping only box-sizing here as per the new instruction's * block. */
 }

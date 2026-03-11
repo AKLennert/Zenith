@@ -1,41 +1,61 @@
-<nav class="bottom-nav">
-  <div class="nav-scroll-container">
-    <a class="nav-item" routerLink="/dashboard" routerLinkActive="active">
-      <span class="icon">
-        <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-      </span>
-      <span class="label">Journey</span>
-    </a>
-    
-    <a class="nav-item" routerLink="/food" routerLinkActive="active">
-      <span class="icon">
-        <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      </span>
-      <span class="label">Food</span>
-    </a>
+<!-- Backdrop for closing menu when clicking outside -->
+<div class="menu-backdrop" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
 
-    <a class="nav-item home-center" routerLink="/home" routerLinkActive="active">
-      <span class="icon">
-        <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-      </span>
-      <span class="label">Home</span>
-    </a>
-
-    <a class="nav-item" routerLink="/journal" routerLinkActive="active">
+<!-- Dropdown Menu Sheet -->
+<div class="bottom-sheet-menu" [class.open]="isMenuOpen">
+  <div class="menu-header">
+    <div class="menu-handle"></div>
+    <h3>Sanctum Tools</h3>
+  </div>
+  <div class="menu-items">
+    <a class="menu-item" routerLink="/journal" routerLinkActive="active" (click)="closeMenu()">
       <span class="icon">
         <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       </span>
       <span class="label">Journal</span>
     </a>
 
-    <a class="nav-item" routerLink="/sleep" routerLinkActive="active">
+    <a class="menu-item" routerLink="/food" routerLinkActive="active" (click)="closeMenu()">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </span>
+      <span class="label">Food</span>
+    </a>
+
+    <a class="menu-item" routerLink="/sleep" routerLinkActive="active" (click)="closeMenu()">
       <span class="icon">
         <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       </span>
       <span class="label">Sleep</span>
     </a>
 
-    <a class="nav-item" routerLink="/profile" routerLinkActive="active">
+    <a class="menu-item" routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </span>
+      <span class="label">Journey</span>
+    </a>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <div class="nav-scroll-container">
+    <button class="nav-item left-menu-btn" [class.active]="isMenuOpen" (click)="toggleMenu()">
+      <span class="icon">
+        <!-- Hamburger Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </span>
+      <span class="label">Menu</span>
+    </button>
+    
+    <a class="nav-item" routerLink="/home" routerLinkActive="active" (click)="closeMenu()">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </span>
+      <span class="label">Home</span>
+    </a>
+
+    <a class="nav-item" routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">
       <span class="icon">
         <svg xmlns="http://www.w3.org/-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </span>
