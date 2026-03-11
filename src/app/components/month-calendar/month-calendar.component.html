@@ -1,10 +1,17 @@
 <div class="month-calendar">
   <div class="calendar-header">
+    <button class="nav-btn" (click)="changeMonth(-1)">
+      <svg xmlns="http://www.w3.org/-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
     <h3 class="month-label">{{ monthLabel }}</h3>
-    <div class="legend">
-      <span class="legend-dot dot-clean"></span><span class="legend-text">Clean</span>
-      <span class="legend-dot dot-ripped"></span><span class="legend-text">Ripped</span>
-    </div>
+    <button class="nav-btn" (click)="changeMonth(1)">
+      <svg xmlns="http://www.w3.org/-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </div>
+  
+  <div class="legend" *ngIf="mode === 'journey' || mode === 'both'">
+    <span class="legend-dot dot-clean"></span><span class="legend-text">Clean</span>
+    <span class="legend-dot dot-ripped"></span><span class="legend-text">Ripped</span>
   </div>
 
   <!-- Weekday headers -->
@@ -12,20 +19,22 @@
     <div class="weekday-label" *ngFor="let wd of weekDays">{{ wd }}</div>
 
     <!-- Day cells -->
+    <!-- Note: CSS classes are conditional on 'mode' so that UI doesn't clash -->
     <div
       *ngFor="let dayObj of calendarDays"
       class="day-cell"
       [class.empty]="!dayObj"
+      [class.selected-day]="dayObj?.dateStr && dayObj?.dateStr === selectedDateStr"
       [class.today]="dayObj?.isToday"
       [class.future]="dayObj?.status === 'future'"
-      [class.status-clean]="dayObj?.status === 'clean' && !dayObj?.mood"
-      [class.status-ripped]="dayObj?.status === 'ripped' && !dayObj?.mood"
+      [class.status-clean]="(mode === 'journey' || mode === 'both') && dayObj?.status === 'clean' && (!dayObj?.mood || mode === 'journey')"
+      [class.status-ripped]="(mode === 'journey' || mode === 'both') && dayObj?.status === 'ripped' && (!dayObj?.mood || mode === 'journey')"
       [class.status-none]="dayObj?.status === 'none'"
-      [class.mood-great]="dayObj?.mood === 'great'"
-      [class.mood-good]="dayObj?.mood === 'good'"
-      [class.mood-neutral]="dayObj?.mood === 'neutral'"
-      [class.mood-bad]="dayObj?.mood === 'bad'"
-      [class.mood-terrible]="dayObj?.mood === 'terrible'"
+      [class.mood-great]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'great'"
+      [class.mood-good]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'good'"
+      [class.mood-neutral]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'neutral'"
+      [class.mood-bad]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'bad'"
+      [class.mood-terrible]="(mode === 'journal' || mode === 'both') && dayObj?.mood === 'terrible'"
       (click)="selectDay(dayObj)">
       <span *ngIf="dayObj">{{ dayObj.day }}</span>
     </div>

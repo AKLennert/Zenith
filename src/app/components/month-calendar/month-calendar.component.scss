@@ -18,6 +18,24 @@
     color: var(--text-primary);
   }
 
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--bg-mantle);
+      color: var(--accent-gold);
+    }
+  }
+
   .legend {
     display: flex;
     align-items: center;

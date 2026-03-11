@@ -15,7 +15,50 @@
         <span class="greeting-label">Your Sanctum</span>
         <h1>Your Journey</h1>
       </div>
+      <div class="header-date-box" style="text-align: right;">
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">{{ selectedDate | date:'EEE, MMM d' }}</span><br>
+        <span class="saving-indicator" [class.visible]="isSaving" style="font-size: 0.7rem; color: var(--accent-gold); opacity: 0; transition: opacity 0.3s; padding-top: 4px; display: inline-block;">✦ saving...</span>
+      </div>
     </div>
+
+    <!-- Monthly Calendar (Journey Mode) -->
+    <app-month-calendar
+      [logs]="monthLogs"
+      [selectedDateStr]="selectedDateStr"
+      mode="journey"
+      (daySelected)="onDaySelectedFromCalendar($event)">
+    </app-month-calendar>
+
+    <!-- Week Date Carousel -->
+    <div class="date-carousel">
+      <div
+        class="date-item"
+        *ngFor="let d of dates"
+        [class.active]="formatDate(d) === selectedDateStr"
+        (click)="selectDate(d)">
+        <span class="day-name">{{ getDisplayDay(d) }}</span>
+        <span class="date-num">{{ d.getDate() }}</span>
+        <span class="day-dot"
+          [class.dot-clean]="monthLogs[formatDate(d)]?.partook === false"
+          [class.dot-ripped]="monthLogs[formatDate(d)]?.partook === true">
+        </span>
+      </div>
+    </div>
+
+    <!-- Check-in Section -->
+    <div class="checkin-section">
+      <h3 class="checkin-label">
+        Check in for
+        <strong>{{ getDisplayDay(selectedDate) === 'Today' ? 'Today' : getDisplayDate(selectedDate) }}</strong>
+      </h3>
+
+      <app-partook-slider
+        [value]="currentLog.partook ?? null"
+        (valueChange)="onPartookChange($event)">
+      </app-partook-slider>
+    </div>
+
+    <hr class="journey-divider">
 
     <!-- === Quest Exists: Show Progress === -->
     <ng-container *ngIf="questProgress$ | async as progress; else noQuest">

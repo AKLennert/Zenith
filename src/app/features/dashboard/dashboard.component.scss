@@ -34,6 +34,7 @@
       color: var(--text-primary);
       margin: 2px 0 0;
       background: linear-gradient(135deg, #e0dde6, var(--accent-arcane));
+      background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -433,4 +434,51 @@
 @keyframes badge-pulse {
   0%, 100% { box-shadow: 0 4px 16px rgba(138, 43, 226, 0.4); }
   50% { box-shadow: 0 4px 28px rgba(138, 43, 226, 0.7); }
+}
+
+// Date Carousel
+.date-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 0.6rem;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+
+  .date-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-width: 54px; padding: 0.65rem 0.5rem; border-radius: var(--radius-card);
+    background-color: var(--bg-surface); color: var(--text-secondary);
+    border: 1px solid transparent; cursor: pointer; transition: var(--transition-smooth); gap: 2px;
+    
+    .day-name { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .date-num { font-size: 1.1rem; font-weight: 600; }
+    .day-dot {
+      width: 5px; height: 5px; border-radius: 50%; background-color: transparent; transition: background-color 0.3s; margin-top: 2px;
+      &.dot-clean { background-color: var(--accent-mystic-green); }
+      &.dot-ripped { background-color: var(--accent-arcane); }
+    }
+    &:hover { background-color: var(--bg-mantle); }
+    &.active {
+      background-color: var(--accent-arcane-glow); color: var(--text-primary);
+      border-color: var(--accent-arcane); box-shadow: var(--shadow-arcane);
+    }
+  }
+}
+
+// Check-in
+.checkin-section {
+  display: flex; flex-direction: column; gap: 1.25rem; animation: fadeIn 0.4s ease-out;
+  .checkin-label {
+    margin: 0; font-size: 1rem; font-weight: 400; color: var(--text-secondary); text-align: center;
+    strong { color: var(--text-primary); display: block; font-size: 1.4rem; font-weight: 700; }
+  }
+}
+
+.saving-indicator.visible { opacity: 1 !important; }
+
+.journey-divider {
+  border: none;
+  border-top: 1px dashed var(--bg-mantle);
+  margin: 1.5rem 0;
 }

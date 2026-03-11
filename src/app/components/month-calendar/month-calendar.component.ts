@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface CalendarDay {
@@ -16,14 +16,23 @@ interface CalendarDay {
   templateUrl: './month-calendar.component.html',
   styleUrl: './month-calendar.component.scss'
 })
-export class MonthCalendarComponent implements OnChanges {
+export class MonthCalendarComponent implements OnChanges, OnInit {
   @Input() logs: { [dateStr: string]: { partook: boolean | null, mood?: string } } = {};
   @Input() selectedDateStr: string = '';
+  @Input() mode: 'journey' | 'journal' | 'both' = 'both';
   @Output() daySelected = new EventEmitter<string>();
 
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   calendarDays: (CalendarDay | null)[] = [];
   monthLabel: string = '';
+  
+  // Track the month currently being viewed
+  currentViewDate: Date = new Date();
+
+  ngOnInit() {
+    this.currentViewDate = this.selectedDateStr ? new Date(this.selectedDateStr) : new Date();
+    this.buildCalendar();
+  }
 
   ngOnChanges() {
     this.buildCalendar();
@@ -31,11 +40,13 @@ export class MonthCalendarComponent implements OnChanges {
 
   buildCalendar() {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
     const todayStr = this.formatDate(today);
 
-    this.monthLabel = today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    // Build the calendar based on the currentViewDate, not necessarily today
+    const year = this.currentViewDate.getFullYear();
+    const month = this.currentViewDate.getMonth();
+
+    this.monthLabel = this.currentViewDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
     const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -87,5 +98,10 @@ export class MonthCalendarComponent implements OnChanges {
   selectDay(dayObj: CalendarDay | null) {
     if (!dayObj || dayObj.status === 'future') return;
     this.daySelected.emit(dayObj.dateStr);
+  }
+
+  changeMonth(offset: number) {
+    this.currentViewDate = new Date(this.currentViewDate.getFullYear(), this.currentViewDate.getMonth() + offset, 1);
+    this.buildCalendar();
   }
 }
