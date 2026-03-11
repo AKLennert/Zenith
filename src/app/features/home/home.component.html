@@ -1,14 +1,48 @@
 <div class="home-container">
   <div class="home-header">
     <div>
-      <span class="greeting-label">Global Activity</span>
-      <h1>Home Feed</h1>
+      <span class="greeting-label">Weekly Overview</span>
+      <h1>Sanctum Core</h1>
     </div>
   </div>
 
-  <div class="placeholder-card">
-    <div class="icon">🔮</div>
-    <h2>The Oracle is Pondering</h2>
-    <p>A global feed of allied wizards and guild activity will emerge here soon.</p>
+  <div class="weekly-dashboard" *ngIf="!isLoading()">
+    <div class="day-card" *ngFor="let day of weekDays()" [class.is-today]="day.isToday">
+      <div class="day-header">
+        <span class="day-name">{{ day.dayName }}</span>
+        <span class="day-number">{{ day.dayNumber }}</span>
+      </div>
+      
+      <div class="category-indicators">
+        <!-- Journey Indicator (Gold) -->
+        <div class="indicator-pill journey-pill" [class.active]="day.journeyLogged">
+          <span class="dot"></span>
+          <span class="label">Journey</span>
+        </div>
+        
+        <!-- Journal Indicator (Arcane) -->
+        <div class="indicator-pill journal-pill" [class.active]="day.journalLogged">
+          <span class="dot"></span>
+          <span class="label">Journal</span>
+        </div>
+
+        <!-- Food Indicator (Mystic Green) -->
+        <div class="indicator-pill food-pill" [class.active]="day.foodLogged">
+          <span class="dot"></span>
+          <span class="label">Food</span>
+        </div>
+
+        <!-- Sleep Indicator (Silver/Muted) -->
+        <div class="indicator-pill sleep-pill" [class.active]="day.sleepLogged">
+          <span class="dot"></span>
+          <span class="label">Sleep</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading()">
+    <div class="spinner"></div>
+    <p>Loading records...</p>
   </div>
 </div>

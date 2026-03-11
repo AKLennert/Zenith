@@ -42,7 +42,10 @@ html, body {
   --accent-gold-glow: rgba(212, 175, 55, 0.4);
   --accent-arcane: #8a2be2; // Arcane purple
   --accent-arcane-glow: rgba(138, 43, 226, 0.4);
-  --accent-mystic-green: #00fa9a; // Deep mystic green for success/progress
+  --accent-mystic-green: #00fa9a; // Deep mystic green for success/progress/food
+  --accent-mystic-green-glow: rgba(0, 250, 154, 0.4);
+  --accent-silver: #a3a3a3; // Muted silver for sleep
+  --accent-silver-glow: rgba(163, 163, 163, 0.4);
 
   // Text Colors
   --text-primary: #e0dde6; // Soft off-white
