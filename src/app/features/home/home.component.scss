@@ -29,7 +29,56 @@
 .weekly-dashboard {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+}
+
+.previous-days-list {
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
+}
+
+.today-widget {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1 / 1;
+  background: rgba(30, 26, 49, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-arcane);
+  padding: 1.5rem;
+  border-radius: calc(var(--radius-card) * 1.5);
+  gap: 1.5rem;
+  transition: var(--transition-smooth);
+  
+  .day-header {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    
+    .day-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .day-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+  }
+
+  .category-indicators-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    flex: 1;
+  }
 }
 
 .day-card {
@@ -41,12 +90,6 @@
   gap: 1rem;
   transition: var(--transition-smooth);
   border: 1px solid transparent;
-
-  &.is-today {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(30, 26, 49, 0.8);
-    box-shadow: var(--shadow-arcane);
-  }
 
   .day-header {
     display: flex;
@@ -74,11 +117,13 @@
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: flex-end;
+  }
+}
 
-    .indicator-pill {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
+.indicator-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
       padding: 0.35rem 0.6rem;
       border-radius: var(--radius-pill);
       background: var(--bg-mantle);
@@ -129,6 +174,19 @@
         }
       }
     }
+
+/* Base styles for both list and grid pills */
+.today-widget .indicator-pill {
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  
+  .dot {
+    width: 12px;
+    height: 12px;
   }
 }
 

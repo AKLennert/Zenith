@@ -7,35 +7,57 @@
   </div>
 
   <div class="weekly-dashboard" *ngIf="!isLoading()">
-    <div class="day-card" *ngFor="let day of weekDays()" [class.is-today]="day.isToday">
+    <!-- Today Widget (Large Square) -->
+    <div class="today-widget" *ngIf="weekDays().length > 0">
       <div class="day-header">
-        <span class="day-name">{{ day.dayName }}</span>
-        <span class="day-number">{{ day.dayNumber }}</span>
+        <span class="day-name">Today</span>
+        <span class="day-number">{{ weekDays()[0].dayNumber }}</span>
       </div>
       
-      <div class="category-indicators">
-        <!-- Journey Indicator (Gold) -->
-        <div class="indicator-pill journey-pill" [class.active]="day.journeyLogged">
+      <div class="category-indicators-grid">
+        <div class="indicator-pill journey-pill" [class.active]="weekDays()[0].journeyLogged">
           <span class="dot"></span>
           <span class="label">Journey</span>
         </div>
         
-        <!-- Journal Indicator (Arcane) -->
-        <div class="indicator-pill journal-pill" [class.active]="day.journalLogged">
+        <div class="indicator-pill journal-pill" [class.active]="weekDays()[0].journalLogged">
           <span class="dot"></span>
           <span class="label">Journal</span>
         </div>
 
-        <!-- Food Indicator (Mystic Green) -->
-        <div class="indicator-pill food-pill" [class.active]="day.foodLogged">
+        <div class="indicator-pill food-pill" [class.active]="weekDays()[0].foodLogged">
           <span class="dot"></span>
           <span class="label">Food</span>
         </div>
 
-        <!-- Sleep Indicator (Silver/Muted) -->
-        <div class="indicator-pill sleep-pill" [class.active]="day.sleepLogged">
+        <div class="indicator-pill sleep-pill" [class.active]="weekDays()[0].sleepLogged">
           <span class="dot"></span>
           <span class="label">Sleep</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Previous Days List -->
+    <div class="previous-days-list">
+      <div class="day-card" *ngFor="let day of weekDays() | slice:1">
+        <div class="day-header">
+          <span class="day-name">{{ day.dayName }}</span>
+          <span class="day-number">{{ day.dayNumber }}</span>
+        </div>
+        
+        <div class="category-indicators">
+          <div class="indicator-pill journey-pill" [class.active]="day.journeyLogged">
+            <span class="dot"></span><span class="label">Journey</span>
+          </div>
+          <div class="indicator-pill journal-pill" [class.active]="day.journalLogged">
+            <span class="dot"></span><span class="label">Journal</span>
+          </div>
+          <div class="indicator-pill food-pill" [class.active]="day.foodLogged">
+            <span class="dot"></span><span class="label">Food</span>
+          </div>
+          <div class="indicator-pill sleep-pill" [class.active]="day.sleepLogged">
+            <span class="dot"></span><span class="label">Sleep</span>
+          </div>
         </div>
       </div>
     </div>

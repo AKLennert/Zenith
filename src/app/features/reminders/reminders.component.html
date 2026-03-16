@@ -1,0 +1,76 @@
+<div class="home-container">
+
+  <!-- Header -->
+  <div class="home-header">
+    <div>
+      <span class="greeting-label">Prepare your mind</span>
+      <h1>Reminders</h1>
+    </div>
+    <div class="header-date">
+      <span>{{ selectedDate | date:'EEE, MMM d' }}</span>
+    </div>
+  </div>
+
+  <!-- Future Date Carousel -->
+  <div class="date-carousel">
+    <div
+      class="date-item"
+      *ngFor="let d of dates"
+      [class.active]="formatDate(d) === selectedDateStr"
+      (click)="selectDate(d)">
+      <span class="day-name">{{ getDisplayDay(d) }}</span>
+      <span class="date-num">{{ d.getDate() }}</span>
+    </div>
+  </div>
+
+  <div class="reminders-section" *ngIf="!isLoading">
+    <h3 class="reminders-label">
+      Looking ahead to <strong>{{ getDisplayDay(selectedDate) === 'Today' ? 'Today' : (getDisplayDay(selectedDate) === 'Tmrw' ? 'Tomorrow' : getDisplayDate(selectedDate)) }}</strong>
+    </h3>
+
+    <!-- Reminders List -->
+    <div class="reminders-list">
+      <div 
+        *ngFor="let reminder of reminders" 
+        class="reminder-card" 
+        [class.completed]="reminder.completed">
+        
+        <label class="checkbox-wrapper">
+          <input type="checkbox" [checked]="reminder.completed" (change)="toggleCompletion(reminder)" />
+          <span class="checkmark"></span>
+        </label>
+        
+        <span class="reminder-text">{{ reminder.text }}</span>
+        
+        <button class="delete-btn" (click)="deleteReminder(reminder)" aria-label="Delete Reminder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+        </button>
+      </div>
+      
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="reminders.length === 0">
+        <p>No quests planned for this day.</p>
+      </div>
+    </div>
+
+    <!-- Add Reminder Input -->
+    <div class="add-reminder-container">
+      <input 
+        type="text" 
+        [(ngModel)]="newReminderText" 
+        placeholder="Add a new reminder..."
+        (keyup.enter)="addReminder()" />
+      <button class="add-btn" (click)="addReminder()" [disabled]="!newReminderText.trim()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="arcane-spinner"></div>
+    <p>Consulting the stars...</p>
+  </div>
+
+</div>
+

@@ -103,8 +103,8 @@ export class HomeComponent implements OnInit {
   private generateLast7Days() {
     const days = [];
     const today = new Date();
-    // Generate chronological: 6 days ago up to today
-    for (let i = 6; i >= 0; i--) {
+    // Generate chronological descending: today down to 6 days ago
+    for (let i = 0; i <= 6; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
       const isToday = i === 0;

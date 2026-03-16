@@ -47,6 +47,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'reminders',
+    loadComponent: () => import('./features/reminders/reminders.component').then(m => m.RemindersComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
